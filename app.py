@@ -36,7 +36,14 @@ def submit():
 
         now_kst = datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S KST')
 
+        # 디버그 로그
+        _mu = os.environ.get('MAIL_USERNAME', '')
+        _mp = os.environ.get('MAIL_PASSWORD', '')
+        print(f'[DEBUG] MAIL_USERNAME: {_mu[:5]}***' if _mu else '[DEBUG] MAIL_USERNAME: (미설정)')
+        print(f'[DEBUG] MAIL_PASSWORD length: {len(_mp)}' if _mp else '[DEBUG] MAIL_PASSWORD: (미설정)')
+
         # 이메일 발송
+        print('[DEBUG] SMTP 연결 시도...')
         send_notification_email(
             company=company,
             name=name,
@@ -46,6 +53,7 @@ def submit():
             content=content,
             timestamp=now_kst
         )
+        print('[DEBUG] SMTP 연결 및 발송 완료')
 
         return jsonify({'success': True, 'message': '상담 신청이 완료되었습니다. 24시간 내 연락드리겠습니다.'})
 
@@ -60,8 +68,12 @@ def send_notification_email(company, name, phone, email, inquiry_type, content, 
     recipient = os.environ.get('MAIL_RECIPIENT', 'dmz8013@gmail.com')
 
     if not mail_username or not mail_password:
-        app.logger.warning('MAIL_USERNAME 또는 MAIL_PASSWORD 환경변수 미설정 — 이메일 발송 스킵')
-        return
+        missing = []
+        if not mail_username:
+            missing.append('MAIL_USERNAME')
+        if not mail_password:
+            missing.append('MAIL_PASSWORD')
+        raise RuntimeError(f'필수 환경변수 미설정: {", ".join(missing)}')
 
     subject = f'[SOB 상담신청] {inquiry_type} - {name}'
 
