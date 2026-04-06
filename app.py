@@ -1,5 +1,6 @@
 import os
 import smtplib
+import threading
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timezone, timedelta
@@ -42,18 +43,12 @@ def submit():
         print(f'[DEBUG] MAIL_USERNAME: {_mu[:5]}***' if _mu else '[DEBUG] MAIL_USERNAME: (미설정)')
         print(f'[DEBUG] MAIL_PASSWORD length: {len(_mp)}' if _mp else '[DEBUG] MAIL_PASSWORD: (미설정)')
 
-        # 이메일 발송
-        print('[DEBUG] SMTP 연결 시도...')
-        send_notification_email(
-            company=company,
-            name=name,
-            phone=phone,
-            email=email,
-            inquiry_type=inquiry_type,
-            content=content,
-            timestamp=now_kst
-        )
-        print('[DEBUG] SMTP 연결 및 발송 완료')
+        # 이메일 비동기 발송
+        print('[DEBUG] 이메일 백그라운드 발송 시작...')
+        threading.Thread(
+            target=send_notification_email,
+            args=(company, name, phone, email, inquiry_type, content, now_kst)
+        ).start()
 
         return jsonify({'success': True, 'message': '상담 신청이 완료되었습니다. 24시간 내 연락드리겠습니다.'})
 
@@ -103,14 +98,14 @@ def send_notification_email(company, name, phone, email, inquiry_type, content, 
     msg.attach(MIMEText(body, 'plain', 'utf-8'))
 
     try:
+        print('[DEBUG] SMTP 연결 시도...')
         with smtplib.SMTP('smtp.gmail.com', 587) as server:
             server.starttls()
             server.login(mail_username, mail_password)
             server.send_message(msg)
-        app.logger.info(f'상담 알림 이메일 발송 완료: {name} ({company})')
+        print(f'[EMAIL] 발송 완료: {name} ({company})')
     except Exception as e:
-        app.logger.error(f'이메일 발송 실패: {e}')
-        raise
+        print(f'[EMAIL ERROR] 발송 실패: {e}')
 
 
 if __name__ == '__main__':
