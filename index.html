@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOB Production — 미디어가 있는 PR 대행사</title>
+    <meta name="description" content="4,000명+ 커뮤니티·유튜브·웹미디어를 보유한 실행형 PR·AX·선거·B2B·B2G·IR 대행사">
+    <meta property="og:title" content="SOB Production — 미디어가 있는 PR 대행사">
+    <meta property="og:description" content="미디어 생태계를 가진 PR·AX·선거·B2B·B2G·IR 대행사">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Pretendard Variable', 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== TOKENS (updated) ===== */
+        :root {
+            --bg: #0F1117;
+            --bg-alt: #161B27;
+            --bg-elevated: #161B27;
+            --bg-card: #1A2035;
+            --bg-card-hover: #1E2640;
+            --blue: #4A8AE6;
+            --blue-light: #7AADFF;
+            --blue-dim: rgba(74,138,230,0.10);
+            --blue-glow: rgba(74,138,230,0.05);
+            --purple: #A78BFA;
+            --purple-dim: rgba(167,139,250,0.10);
+            --border: rgba(255,255,255,0.06);
+            --border-hover: rgba(74,138,230,0.22);
+            --text: #F0F4FF;
+            --text-secondary: #8B90A8;
+            --text-muted: #4E5470;
+            --white: #F0F4FF;
+        }
+
+        /* ===== GRID BG ===== */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+            z-index: 0;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 100%);
+        }
+
+        /* ===== SCROLL REVEAL ===== */
+        .rv {
+            opacity: 0;
+            transform: translateY(48px);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .rv.vis { opacity: 1; transform: translateY(0); }
+        .d1 { transition-delay: 0.08s; }
+        .d2 { transition-delay: 0.16s; }
+        .d3 { transition-delay: 0.24s; }
+        .d4 { transition-delay: 0.32s; }
+        .d5 { transition-delay: 0.40s; }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(15,17,23,0.8);
+            backdrop-filter: blur(28px) saturate(1.4);
+            -webkit-backdrop-filter: blur(28px) saturate(1.4);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 60px; padding: 0 40px;
+        }
+        .nav-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px; font-weight: 800; letter-spacing: -0.5px;
+            color: var(--white);
+        }
+        .nav-logo span { color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+        .nav-cta {
+            background: var(--white); color: var(--bg);
+            padding: 7px 16px; border-radius: 8px;
+            font-size: 13px; font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .nav-cta:hover { opacity: 0.85; }
+
+        /* ===== HERO ===== */
+        .hero-wrap {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg);
+        }
+        .hero-wrap::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+            z-index: 0;
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 20%, transparent 80%);
+        }
+        /* blue-purple gradient overlay */
+        .hero-wrap::after {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(37,99,235,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 75% 25%, rgba(167,139,250,0.06) 0%, transparent 55%),
+                radial-gradient(circle at 10% 80%, rgba(74,138,230,0.10) 0%, rgba(74,138,230,0.03) 40%, transparent 70%);
+            filter: blur(40px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            align-items: center;
+            gap: 80px;
+            padding: 180px 40px 140px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .hero-left, .hero-right { position: relative; z-index: 1; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--blue-dim);
+            border: 1px solid rgba(74,138,230,0.12);
+            color: var(--blue);
+            padding: 7px 14px; border-radius: 100px;
+            font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+            margin-bottom: 48px;
+        }
+        .hero-badge .dot {
+            width: 6px; height: 6px;
+            background: var(--blue);
+            border-radius: 50%;
+            animation: blink 2.4s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .hero h1 {
+            font-size: clamp(44px, 5.5vw, 72px);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -2.5px;
+            color: var(--white);
+            margin-bottom: 32px;
+        }
+        .hero h1 .dim { color: var(--text-muted); }
+        .hero h1 .blue {
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-sub {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            margin-bottom: 56px;
+            max-width: 480px;
+        }
+        .hero-cta-group { display: flex; gap: 12px; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--blue); color: #fff;
+            padding: 16px 32px; border-radius: 12px;
+            font-size: 15px; font-weight: 700;
+            transition: all 0.2s;
+            border: none; cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: var(--blue-light);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 32px rgba(74,138,230,0.25);
+        }
+        .btn-primary svg { width: 16px; height: 16px; }
+        .btn-ghost {
+            display: inline-flex; align-items: center;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-secondary);
+            padding: 16px 28px; border-radius: 12px;
+            font-size: 15px; font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-ghost:hover {
+            border-color: rgba(255,255,255,0.15);
+            color: var(--white);
+        }
+
+        /* hero right stat cards */
+        .hero-stats { display: flex; flex-direction: column; gap: 16px; }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: block; color: inherit;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue), var(--purple), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .stat-card:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+        }
+        .stat-card:hover::before { opacity: 1; }
+        .stat-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 36px; font-weight: 900;
+            letter-spacing: -1.5px;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .stat-number .counter-val { display: inline; }
+        .stat-number .blue-text {
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-number .purple-text {
+            background: linear-gradient(135deg, var(--purple), #C4B5FD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            font-size: 14px; font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .stat-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ===== SECTION ===== */
+        .section {
+            padding: 200px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            color: var(--blue);
+            font-size: 12px; font-weight: 700;
+            letter-spacing: 4px; text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 900; line-height: 1.15;
+            letter-spacing: -1.5px;
+            color: var(--white);
+            margin-bottom: 24px;
+        }
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 18px; max-width: 520px;
+            line-height: 1.75;
+            margin-bottom: 96px;
+        }
+
+        /* ===== SERVICES ===== */
+        .svc-bg { background: var(--bg-alt); }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .svc {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 48px 36px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .svc::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.4s;
+            background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%),
+                        rgba(74,138,230,0.06), transparent 40%);
+            pointer-events: none;
+        }
+        .svc:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            background: var(--bg-card-hover);
+            box-shadow: 0 0 80px rgba(74,138,230,0.06);
+        }
+        .svc:hover::after { opacity: 1; }
+        .svc-icon {
+            width: 48px; height: 48px;
+            background: var(--blue-dim);
+            border: 1px solid rgba(74,138,230,0.08);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 28px;
+        }
+        .svc-icon svg { width: 22px; height: 22px; color: var(--blue); }
+        .svc h3 {
+            font-size: 22px; font-weight: 800;
+            color: var(--white);
+            margin-bottom: 14px;
+            letter-spacing: -0.3px;
+        }
+        .svc p {
+            color: var(--text-secondary);
+            font-size: 15px; line-height: 1.8;
+        }
+        .svc-tags {
+            display: flex; flex-wrap: wrap; gap: 6px;
+            margin-top: 24px;
+        }
+        .svc-tag {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 500;
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-bg { background: var(--bg); }
+        .form-wrap {
+            max-width: 680px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 56px 48px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .fg { margin-bottom: 20px; }
+        .fg label {
+            display: block;
+            font-size: 13px; font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .fg label .req { color: var(--blue); margin-left: 2px; }
+        .fg input, .fg select, .fg textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 15px;
+            color: var(--text);
+            font-family: inherit;
+            transition: all 0.2s;
+            outline: none;
+        }
+        .fg input:focus, .fg select:focus, .fg textarea:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px var(--blue-dim), 0 0 24px rgba(74,138,230,0.08);
+        }
+        .fg input::placeholder, .fg textarea::placeholder { color: var(--text-muted); }
+        .fg select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%234E5470' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 44px;
+        }
+        .fg select option { background: var(--bg-card); color: var(--text); }
+        .fg textarea { min-height: 140px; resize: vertical; }
+        .form-submit {
+            width: 100%;
+            background: var(--blue); color: #fff;
+            border: none; border-radius: 12px;
+            padding: 18px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+            font-family: inherit; margin-top: 12px;
+        }
+        .form-submit:hover {
+            background: var(--blue-light);
+            box-shadow: 0 8px 32px rgba(74,138,230,0.2);
+        }
+        .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        .form-result {
+            text-align: center; padding: 16px; border-radius: 10px;
+            margin-top: 16px; font-size: 14px; display: none;
+        }
+        .form-result.success {
+            display: block;
+            background: rgba(34,197,94,0.06);
+            border: 1px solid rgba(34,197,94,0.15);
+            color: #4ADE80;
+        }
+        .form-result.error {
+            display: block;
+            background: rgba(239,68,68,0.06);
+            border: 1px solid rgba(239,68,68,0.15);
+            color: #F87171;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 80px 40px;
+            background: var(--bg-alt);
+        }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between;
+            align-items: flex-start; flex-wrap: wrap; gap: 40px;
+        }
+        .footer-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px; font-weight: 800;
+            color: var(--white); margin-bottom: 12px;
+        }
+        .footer-logo span { color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+        .footer-info { color: var(--text-muted); font-size: 13px; line-height: 2; }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-link {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 16px;
+            color: var(--text-secondary);
+            font-size: 13px; font-weight: 500;
+            transition: all 0.2s;
+        }
+        .footer-link:hover {
+            border-color: var(--border-hover);
+            color: var(--white);
+        }
+        .footer-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 960px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 56px;
+                padding: 140px 24px 80px;
+            }
+            .hero-stats {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .stat-card { flex: 1; min-width: 140px; }
+        }
+        @media (max-width: 768px) {
+            .nav-inner { padding: 0 20px; }
+            .section { padding: 140px 20px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .form-wrap { padding: 36px 24px; }
+            .form-row { grid-template-columns: 1fr; }
+            .footer { padding: 48px 20px; }
+            .footer-inner { flex-direction: column; }
+            .footer-links { flex-direction: column; gap: 12px; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { letter-spacing: -1px; }
+            .hero-cta-group { flex-direction: column; }
+            .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+            .hero-stats { flex-direction: column; }
+            .stat-card { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo">SOB<span>Production</span></div>
+        <a href="#contact" class="nav-cta">상담 신청</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-wrap">
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-badge rv"><span class="dot"></span>PR · AX · B2B · B2G · IR</div>
+        <h1 class="rv d1">미디어가 있는<br><span class="blue">PR 대행사</span><br><span class="dim">SOB Production</span></h1>
+        <p class="hero-sub rv d2">커뮤니티 · 유튜브 · 웹미디어를 직접 운영합니다.<br>전략 수립부터 실행까지, 도달하는 미디어.</p>
+        <div class="hero-cta-group rv d3">
+            <a href="#contact" class="btn-primary">
+                무료 상담 신청
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"/></svg>
+            </a>
+            <a href="#services" class="btn-ghost">서비스 보기</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="hero-stats">
+            <div class="stat-card rv d2">
+                <div class="stat-number"><span class="blue-text counter-val" data-target="4000">0</span>+</div>
+                <div class="stat-label">커뮤니티 멤버</div>
+                <div class="stat-sub">카카오톡 · 텔레그램</div>
+            </div>
+            <a href="https://www.youtube.com/@NR2AESA" target="_blank" class="stat-card rv d3">
+                <div class="stat-number"><span class="purple-text">AESA</span></div>
+                <div class="stat-label">유튜브 채널</div>
+                <div class="stat-sub">AI · 국제정치 · 문화</div>
+            </a>
+            <a href="https://nr2.kr" target="_blank" class="stat-card rv d4">
+                <div class="stat-number">nr2<span class="blue-text">.kr</span></div>
+                <div class="stat-label">웹미디어</div>
+                <div class="stat-sub">뉴스 · 커뮤니티 · 팩트체크</div>
+            </a>
+        </div>
+    </div>
+</section>
+</div>
+
+<!-- SERVICES (6 cards) -->
+<section class="svc-bg">
+<div class="section" id="services">
+    <div class="section-label rv">Services</div>
+    <h2 class="section-title rv">실행까지<br>책임집니다</h2>
+    <p class="section-desc rv">전략 수립부터 미디어 노출까지,<br>자체 생태계와 결합된 원스톱 서비스</p>
+
+    <div class="services-grid">
+        <!-- 1. 기업 홍보(PR) 대행 -->
+        <div class="svc rv">
+            <div class="svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"/></svg>
+            </div>
+            <h3>기업 홍보(PR) 대행</h3>
+            <p>보도자료 작성·배포, 언론 관계 관리, 미디어 트레이닝까지. 단순 배포가 아닌 전략적 미디어 노출을 설계합니다.</p>
+            <div class="svc-tags">
+                <span class="svc-tag">보도자료</span>
+                <span class="svc-tag">언론관계</span>
+                <span class="svc-tag">미디어트레이닝</span>
+            </div>
+        </div>
+        <!-- 2. AX 컨설팅 -->
+        <div class="svc rv d1">
+            <div class="svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
+            </div>
+            <h3>AX 컨설팅 (AI Transformation)</h3>
+            <p>AI 도구 도입 전략부터 업무 자동화 설계까지. 조직의 일하는 방식을 AI 중심으로 전환합니다.</p>
+            <div class="svc-tags">
+                <span class="svc-tag">AI전략</span>
+                <span class="svc-tag">업무자동화</span>
+                <span class="svc-tag">디지털전환</span>
+            </div>
+        </div>
+        <!-- 3. 선거 기획 및 실무 대행 -->
+        <div class="svc rv d2">
+            <div class="svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 010 3.46"/></svg>
+            </div>
+            <h3>선거 기획 및 실무 대행</h3>
+            <p>후보 브랜딩, 공보물 제작, 디지털 선거운동까지. 10년 국회 경험 기반의 선거 전략 실무를 제공합니다.</p>
+            <div class="svc-tags">
+                <span class="svc-tag">후보브랜딩</span>
+                <span class="svc-tag">공보전략</span>
+                <span class="svc-tag">디지털선거</span>
+            </div>
+        </div>
+        <!-- 4. B2B · B2G 컨설팅 -->
+        <div class="svc rv d3">
+            <div class="svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3H21"/></svg>
+            </div>
+            <h3>B2B · B2G 컨설팅</h3>
+            <p>정부·공공기관·기업 대상 전략 컨설팅. 사업 기획부터 제안서, 관계 구축까지 원스톱으로 지원합니다.</p>
+            <div class="svc-tags">
+                <span class="svc-tag">정부과제</span>
+                <span class="svc-tag">공공사업</span>
+                <span class="svc-tag">기업제휴</span>
+            </div>
+        </div>
+        <!-- 5. 자금 조달(IR) 컨설팅 -->
+        <div class="svc rv d4">
+            <div class="svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
+            </div>
+            <h3>자금 조달(IR) 컨설팅</h3>
+            <p>투자자 관계 관리, IR 자료 제작, 투자 유치 전략 수립. 스타트업부터 중견기업까지 맞춤 IR 솔루션을 제공합니다.</p>
+            <div class="svc-tags">
+                <span class="svc-tag">투자유치</span>
+                <span class="svc-tag">IR자료</span>
+                <span class="svc-tag">기업가치</span>
+            </div>
+        </div>
+        <!-- 6. 누렁이 생태계 광고·협찬 -->
+        <div class="svc rv d5">
+            <div class="svc-icon" style="background:var(--purple-dim);border-color:rgba(167,139,250,0.08);">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="color:var(--purple)"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-1.5L12 12m0 0l3 1.5M12 12V9"/></svg>
+            </div>
+            <h3>누렁이 생태계 광고·협찬</h3>
+            <p>카카오톡 오픈채팅 4,000명+, 유튜브 채널, nr2.kr 웹미디어를 통한 통합 광고 패키지. 실제 도달하는 미디어입니다.</p>
+            <div class="svc-tags">
+                <span class="svc-tag">커뮤니티</span>
+                <span class="svc-tag">유튜브</span>
+                <span class="svc-tag">웹미디어</span>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-bg" id="contact">
+    <div class="section">
+        <div class="section-label rv">Contact</div>
+        <h2 class="section-title rv">지금 바로<br>상담을 시작하세요</h2>
+        <p class="section-desc rv">24시간 내 담당자가 직접 연락드립니다</p>
+
+        <div class="form-wrap rv">
+            <form id="contactForm" onsubmit="submitForm(event)">
+                <div class="form-row">
+                    <div class="fg"><label>회사명 <span class="req">*</span></label><input type="text" name="company" required placeholder="회사명"></div>
+                    <div class="fg"><label>담당자명 <span class="req">*</span></label><input type="text" name="name" required placeholder="담당자 성함"></div>
+                </div>
+                <div class="form-row">
+                    <div class="fg"><label>연락처 <span class="req">*</span></label><input type="tel" name="phone" required placeholder="010-0000-0000"></div>
+                    <div class="fg"><label>이메일 <span class="req">*</span></label><input type="email" name="email" required placeholder="email@company.com"></div>
+                </div>
+                <div class="fg">
+                    <label>문의 유형 <span class="req">*</span></label>
+                    <select name="inquiry_type" required>
+                        <option value="" disabled selected>문의 유형을 선택하세요</option>
+                        <option value="기업 홍보(PR) 대행">기업 홍보(PR) 대행</option>
+                        <option value="AX 컨설팅">AX 컨설팅 (AI Transformation)</option>
+                        <option value="선거 기획 및 실무 대행">선거 기획 및 실무 대행</option>
+                        <option value="B2B·B2G 컨설팅">B2B · B2G 컨설팅</option>
+                        <option value="IR 컨설팅">자금 조달(IR) 컨설팅</option>
+                        <option value="광고·협찬 패키지">누렁이 생태계 광고·협찬</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+                <div class="fg">
+                    <label>문의 내용 <span class="req">*</span></label>
+                    <textarea name="content" required placeholder="프로젝트 개요, 예산, 일정 등을 자유롭게 적어주세요"></textarea>
+                </div>
+                <button type="submit" class="form-submit" id="submitBtn">무료 상담 신청하기</button>
+                <div id="formResult" class="form-result"></div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-logo">SOB<span>Production</span></div>
+            <div class="footer-info">
+                대표: 박종원<br>
+                dmz8013@gmail.com
+            </div>
+        </div>
+        <div class="footer-links">
+            <a href="https://nr2.kr" target="_blank" rel="noopener" class="footer-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg>
+                nr2.kr
+            </a>
+            <a href="https://www.youtube.com/@NR2AESA" target="_blank" rel="noopener" class="footer-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg>
+                누렁이 AESA
+            </a>
+            <a href="https://open.kakao.com/o/gYfmBURh" target="_blank" rel="noopener" class="footer-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg>
+                커뮤니티
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ===== SCROLL REVEAL ===== */
+const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+/* ===== COUNTER ANIMATION ===== */
+const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        if (el.dataset.counted) return;
+        el.dataset.counted = '1';
+        const target = parseInt(el.dataset.target);
+        const duration = 1800;
+        const start = performance.now();
+        const step = (now) => {
+            const p = Math.min((now - start) / duration, 1);
+            const ease = 1 - Math.pow(1 - p, 4);
+            el.textContent = Math.floor(ease * target).toLocaleString();
+            if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+    });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter-val').forEach(el => counterIO.observe(el));
+
+/* ===== CARD GLOW FOLLOW ===== */
+document.querySelectorAll('.svc').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+});
+
+/* ===== FORM — Google Apps Script ===== */
+const APPS_SCRIPT_URL = '[APPS_SCRIPT_URL]';
+
+async function submitForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const result = document.getElementById('formResult');
+    const form = document.getElementById('contactForm');
+    btn.disabled = true;
+    btn.textContent = '전송 중...';
+    result.className = 'form-result';
+    result.style.display = 'none';
+
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+
+    if (APPS_SCRIPT_URL === '[APPS_SCRIPT_URL]') {
+        // 플레이스홀더 — Google Forms 새 탭 폴백
+        result.className = 'form-result error';
+        result.textContent = '상담 신청 연결 중입니다. dmz8013@gmail.com으로 직접 문의해주세요.';
+        result.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '무료 상담 신청하기';
+        return;
+    }
+
+    try {
+        const res = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        result.className = 'form-result success';
+        result.textContent = '상담 신청이 완료되었습니다. 24시간 내 담당자가 연락드리겠습니다.';
+        result.style.display = 'block';
+        form.reset();
+    } catch (err) {
+        result.className = 'form-result error';
+        result.textContent = '오류가 발생했습니다. dmz8013@gmail.com으로 직접 문의해주세요.';
+        result.style.display = 'block';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '무료 상담 신청하기';
+    }
+}
+</script>
+
+</body>
+</html>
